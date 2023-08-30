@@ -44,37 +44,71 @@ const setupProject = require('./setup/project.js')
 
 
 // Cerintele aplicatiei
-// sa se ia temperatura la diferite ore/minute
-// in mod automat repetat pentru 3 locatii la alegere
+// sa se ia temperatura la diferite ore/minute in mod automat repetat pentru 3 locatii la alegere
 /**
 * DONE: set up a weather module for that
 * TODO: cronJob using the weather.service
 * NOTE: the 3 locations would normally either be preconfigured or come from the frontend, I'll go with preconfigured for now
 */
 
-// datele extrase sunt salvate intr-un cache
-// baza de date propusa: redis
-// sa se valideze datele de intrare
-// modul npm propus: @hapi/joi
+// sa se valideze datele de intrare, modul npm propus: @hapi/joi
+/**
+ * TODO: dtos for validation
+ * TODO: interceptor to validate with joi
+ */
+
+// datele extrase sunt salvate intr-un cache, baza de date propusa: redis
 // sa se calculeze media dintre temperatura actuala cu media temperaturilor anterioare
+/**
+ * TODO: setup redis on docker
+ * NOTE: check nest recipe for Redis in the documentation
+ * TODO: cronJob can now save data to redis
+ * TODO: update stats.service to do the averages
+ * NOTE: use minutely for testing, change to hourly for production.
+ * check memory limits for in-memory data store.
+ * if risk of overflow, do a moving average rather than average.
+ * It's not the same, but temperatures rarely have spikes,
+ * so it's a good enough approximation with a minimal memory footprint.
+ */
+
 // la cererea pe endpointul /stats sa se ofere
 // media temperaturilor pentru o anumita locatie ceruta
 // sau in caz ca nu avem locatie specificata se face media tuturor temperaturilor
 // in caz ca avem calculul mediei facute in ultimele 5 minute
-//  valoarea se returneaza din cache in caz contrar se cer datele live,
-//   se face calculul, se returneaza datele apoi se salveaza informatia in cache
+// valoarea se returneaza din cache in caz contrar se cer datele live,
+// se face calculul, se returneaza datele apoi se salveaza informatia in cache
 // sa raspunda cu statusuri corespunzatoare
+/**
+ * TODO: add the desired functionality to the endpoint
+ */
+
 // sa se defineasca/foloseasca tipuri si interfete
 // modul npm propus: express
 // sa se foloseasca express middleware
+/**
+ * DONE: using the express version of nest.js
+ */
 // pentru testarea endpointului e nevoie de expunerea lui prin swagger
+/**
+ * TODO: swagger config
+ */
 // taskuri bonus:
 // unit tests
 // modul npm propus: mocha
 // acoperire a codului cat mai mare prin teste, caz ideal > 75%
 // modul npm propus: nyc
 // separare test de src
+/**
+ * DONE: installed istanbul, mocha; prepared boilerplate and folder structure
+ * TODO: some unit tests
+ */
+
 // sa se faca un modul de error handling custom care sa logheze informatiile intr-un fisier
+/**
+ * TODO: docker volume to store the logs
+ * TODO: logger middleware (or just use Morgan)
+ */
+
 // solutia nu trebuie sa fie un produs final ci mai mult un concept functional
 // toate detaliile nespecificate sunt la latitudinea dezvoltatorului
 //  si sunt bine venite orice idei de imbunatatire
