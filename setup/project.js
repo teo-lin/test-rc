@@ -27,9 +27,10 @@ async function setupProject(env) {
 
     // Add npm dependencies
     await run('npm install --save @types/dotenv dotenv')
-    await run('npm install --save ioredis')
+    await run('npm install --save ioredis @nestjs/schedule')
     await run('npm install --save @hapi/joi nyc mocha')
     await run('npm install --save @nestjs/axios axios') // needed for nest's HttpService
+    await run('npm install --save @nestjs/swagger swagger-ui-express')
 
 
     // Modify nest source as needed

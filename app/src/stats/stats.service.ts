@@ -3,6 +3,7 @@ import { WeatherService } from '../weather/weather.service';
 import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TemperaturesDTO } from './Stats.dto';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class StatsService {
@@ -25,6 +26,24 @@ export class StatsService {
                 });
                 return result;
             })
+        );
+    }
+
+    // onModuleInit() {
+    //     // Schedule the cron job to run every hour
+    //     this.getTemperaturesCron();
+    // }
+
+    @Cron('0 * * * *') // Cron expression for every hour
+    getTemperaturesCron() {
+        this.getTemperatures().subscribe(
+            (temperatures) => {
+                // @TODO: save to redis later
+                console.log('Fetched temperatures:', temperatures);
+            },
+            (error) => {
+                console.error('Error fetching temperatures:', error);
+            }
         );
     }
 }

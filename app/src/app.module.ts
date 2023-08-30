@@ -8,7 +8,9 @@ import { StatsController } from './stats/stats.controller';
 import { StatsService } from './stats/stats.service';
 import { StatsModule } from './stats/stats.module';
 import { HttpModule } from '@nestjs/axios';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+// @TODO: coalesce all imports
 @Module({
   imports: [HttpModule, WeatherModule, StatsModule],
   controllers: [AppController, WeatherController, StatsController],

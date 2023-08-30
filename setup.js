@@ -47,8 +47,11 @@ const setupProject = require('./setup/project.js')
 // sa se ia temperatura la diferite ore/minute in mod automat repetat pentru 3 locatii la alegere
 /**
 * DONE: set up a weather module for that
-* TODO: cronJob using the weather.service
+* DONE: set up a stats module to pick temps for 3 procenfigured locations
 * NOTE: the 3 locations would normally either be preconfigured or come from the frontend, I'll go with preconfigured for now
+* DONE: install @nestjs/schedule for the cron job
+* DONE: cronJob using the weather.service
+* TODO: test the cronJob tomorrow, today is over the usage limit
 */
 
 // sa se defineasca/foloseasca tipuri si interfete
@@ -59,8 +62,14 @@ const setupProject = require('./setup/project.js')
 
 // sa se valideze datele de intrare, modul npm propus: @hapi/joi
 /**
- * TODO: dtos for validation
- * TODO: interceptor to validate with joi
+ * DONE: dtos for validation
+ * DONE: interceptor to validate with joi
+ */
+
+// modul npm propus: express
+// sa se foloseasca express middleware
+/**
+ * DONE: using the express version of nest.js
  */
 
 // datele extrase sunt salvate intr-un cache, baza de date propusa: redis
@@ -88,11 +97,6 @@ const setupProject = require('./setup/project.js')
  * TODO: add the desired functionality to the endpoint
  */
 
-// modul npm propus: express
-// sa se foloseasca express middleware
-/**
- * DONE: using the express version of nest.js
- */
 // pentru testarea endpointului e nevoie de expunerea lui prin swagger
 /**
  * TODO: swagger config

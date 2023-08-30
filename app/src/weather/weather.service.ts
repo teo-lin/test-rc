@@ -1,10 +1,12 @@
 import { HttpService } from '@nestjs/axios';
-import { Observable, map } from 'rxjs';
-import { Injectable } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Injectable, UseInterceptors } from '@nestjs/common';
 import { WeatherResponseDTO } from './Weather.dto';
-
+import { WeatherValidationInterceptor } from './weather-validation.interceptor';
 
 @Injectable()
+@UseInterceptors(WeatherValidationInterceptor)
 export class WeatherService {
     constructor(private readonly httpService: HttpService) { }
 
