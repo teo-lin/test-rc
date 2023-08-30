@@ -22,15 +22,19 @@ const setupProject = require('./setup/project.js')
         * for the sake of simplicity, I'm gonna assume node is installed and run this with child_process */
         await setupDevTools()
 
-        // Now lets ask the user for setup preferences etc
+        /** Now lets ask the user for setup preferences etc
+        * Normally, I'd use this to input the sensitive information, 
+        * but for speed, I've created a function based on templates (next one) */
         const env = await getUserInput()
 
         // trebuie sa extraga date dintr-o sursa structurata
-        // - https://www.weatherbit.io/account/dashboard,
-        // user: rc / pass: rc.001 / email: api@rankingcoach.com
+        // https://www.weatherbit.io/account/dashboard,
+        // user: ***** / pass: ***** / email: *****
         // sa se ia temperatura la diferite ore/minute
-        // (intervalul stabilit intr-un config de .env) 
-        // Let's generate the file templates for configs (docker, .env, compose, redis etc)
+        // intervalul stabilit intr-un config de .env
+        /** Let's generate the file templates for configs (docker, .env, compose, redis, swagger etc)
+        * This is bad practice, so I've setup GitGuardian to protect this function
+        * However, I wouldn't recommend this approach in production */
         await setupConfigs(env)
 
         // Finally, let's build the project, with two endpoints, weather and stats
@@ -42,6 +46,12 @@ const setupProject = require('./setup/project.js')
 // Cerintele aplicatiei
 // sa se ia temperatura la diferite ore/minute
 // in mod automat repetat pentru 3 locatii la alegere
+/**
+* DONE: set up a weather module for that
+* TODO: cronJob using the weather.service
+* NOTE: the 3 locations would normally either be preconfigured or come from the frontend, I'll go with preconfigured for now
+*/
+
 // datele extrase sunt salvate intr-un cache
 // baza de date propusa: redis
 // sa se valideze datele de intrare

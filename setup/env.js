@@ -26,6 +26,9 @@ async function getUserInput() {
   return obj
 }
 
+// CREATE TEMPLATES FOR CONFIG FILES AND MODS
+// !! This is really bad practice, so I've set-up GutGuardian to protect this file,
+// but I wouldn't recommend this approach outside demo purposes
 async function setupConfigs(obj) {
   obj.FILE_ENV = `
 DB_HOST=localhost
