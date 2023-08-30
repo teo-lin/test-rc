@@ -1,40 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { WeatherService } from '../weather/weather.service';
-import { Observable, forkJoin, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { TemperaturesDTO } from './Stats.dto';
 
 @Injectable()
 export class StatsService {
     constructor(private readonly weatherService: WeatherService) { }
 
-    getTemperatures(): Observable<any> {
-        const locations = ['Deva', 'Carei', 'Arad']; // Modify as needed
+    getTemperatures(): Observable<TemperaturesDTO> {
+        const locations = ['Deva', 'Carei', 'Arad'];
 
-        type temmperature = {
-            temperature: number
-        }
-
-        const stats: temmperature[] = locations.map(location =>
-            this.weatherService.getTemperature(location)
+        const observables: Observable<{ location: string; temperature: number }>[] = locations.map(location =>
+            this.weatherService.getTemperature(location).pipe(
+                map(temperature => ({ location, temperature }))
+            )
         );
 
-        console.log(stats);
-
-        return forkJoin(stats).pipe(
-            map(responses => {
-                const temperatures = responses.map(response => {
-                    if (response && response.data && response.data.data[0]) {
-                        return response.data.data[0].temp;
-                    }
-                    return null; // Return null for invalid responses
+        return forkJoin(observables).pipe(
+            map(temperatures => {
+                const result: TemperaturesDTO = {};
+                temperatures.forEach(({ location, temperature }) => {
+                    result[location] = temperature;
                 });
-
-                const formattedData = locations.reduce((acc, location, index) => {
-                    acc[location] = temperatures[index];
-                    return acc;
-                }, {});
-
-                return formattedData;
+                return result;
             })
         );
     }

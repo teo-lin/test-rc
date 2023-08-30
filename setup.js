@@ -51,6 +51,12 @@ const setupProject = require('./setup/project.js')
 * NOTE: the 3 locations would normally either be preconfigured or come from the frontend, I'll go with preconfigured for now
 */
 
+// sa se defineasca/foloseasca tipuri si interfete
+/**
+ * DONE: implemented dtos
+ * TODO: currently in one file per module for ease of access. move them to proper structure (separate dto folder, separate file for each)
+ */
+
 // sa se valideze datele de intrare, modul npm propus: @hapi/joi
 /**
  * TODO: dtos for validation
@@ -82,7 +88,6 @@ const setupProject = require('./setup/project.js')
  * TODO: add the desired functionality to the endpoint
  */
 
-// sa se defineasca/foloseasca tipuri si interfete
 // modul npm propus: express
 // sa se foloseasca express middleware
 /**

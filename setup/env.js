@@ -27,22 +27,7 @@ async function getUserInput() {
 }
 
 // CREATE TEMPLATES FOR CONFIG FILES AND MODS
-// !! This is really bad practice, so I've set-up GutGuardian to protect this file,
-// but I wouldn't recommend this approach outside demo purposes
 async function setupConfigs(obj) {
-  obj.FILE_ENV = `
-DB_HOST=localhost
-DB_PORT=6379
-DB_USER=${obj.MY_SUPERUSER_NAME}
-DB_PASS=${obj.MY_POSTGRES_PASS}
-DB_NAME=${obj.MY_MICROSERVICE_NAME}
-WEATHERBIT_ISER=rc
-WEATHERBIT_PASS=rc.001
-WEATHERBIT_MAIL=api@rankingcoach.com
-WEATHERBIT_INTERVAL=minutely
-WEATHERBIT_APIKEY=b541d7219b6c468eb87fea42f3c34e9b
-WEATHERBIT_URL=https://api.weatherbit.io/v2.0/
-`
   obj.FILE_DOCKER = `
 # Use the official Node.js 20 image as a base image
 FROM node:20
@@ -72,6 +57,21 @@ services:
     build: .
     ports:
       - '3000:3000'
+`
+  // !! This is really bad practice, so I've set-up GutGuardian to protect this file,
+  // but I wouldn't recommend this approach outside demo purposes
+  obj.FILE_ENV = `
+DB_HOST=localhost
+DB_PORT=6379
+DB_USER=${obj.MY_SUPERUSER_NAME}
+DB_PASS=${obj.MY_POSTGRES_PASS}
+DB_NAME=${obj.MY_MICROSERVICE_NAME}
+WEATHERBIT_ISER=rc
+WEATHERBIT_PASS=rc.001
+WEATHERBIT_MAIL=api@rankingcoach.com
+WEATHERBIT_INTERVAL=minutely
+WEATHERBIT_APIKEY=b541d7219b6c468eb87fea42f3c34e9b
+WEATHERBIT_URL=https://api.weatherbit.io/v2.0/
 `
   obj.FILE_MAIN = `
 import { NestFactory } from '@nestjs/core';
