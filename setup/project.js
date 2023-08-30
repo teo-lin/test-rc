@@ -20,7 +20,7 @@ async function setupProject(env) {
     log('ENDED: nest project setup')
 
     // Initiate the repository
-    await run('git init')
+    // await run('git init') // not initialising, as ths is a nested project, but should be if standalone
 
     // Initiate the database
 

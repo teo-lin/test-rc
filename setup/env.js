@@ -36,7 +36,7 @@ DB_NAME=${obj.MY_MICROSERVICE_NAME}
 WEATHERBIT_ISER=rc
 WEATHERBIT_PASS=rc.001
 WEATHERBIT_MAIL=api@rankingcoach.com
-WEATHERBIT_INTERVAL=1000
+WEATHERBIT_INTERVAL=minutely
 WEATHERBIT_APIKEY=b541d7219b6c468eb87fea42f3c34e9b
 WEATHERBIT_URL=https://api.weatherbit.io/v2.0/
 `
@@ -126,7 +126,7 @@ export class AppModule { }
       constructor(private readonly httpService: HttpService) { }
   
       getTemperature(location: string): Observable<any>/*@TODO any->dto*/ {
-          const apiUrl = \`\${process.env.WEATHERBIT_URL} current ? city = \${location}& key=\${process.env.WEATHERBIT_APIKEY}& include=\${process.env.WEATHERBIT_INTERVAL} \`;
+          const apiUrl = \`\${process.env.WEATHERBIT_URL}current?city=\${location}&key=\${process.env.WEATHERBIT_APIKEY}&include=\${process.env.WEATHERBIT_INTERVAL}\`;
           console.log(apiUrl);
   
           return this.httpService.get(apiUrl).pipe(
