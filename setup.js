@@ -120,8 +120,10 @@ const { setupProject, updateProject } = require('./setup/project.js')
 // separare test de src
 /**
  * DONE: installed istanbul, mocha; prepared boilerplate and folder structure
- * TODO: some unit tests
- */
+ * DONE: 85% test coverage for weather
+ * add the following lines to package.json to run them: */
+// "test": "mocha --require ts-node/register 'src/weather/**/*.spec.ts'",
+// "test:coverage": "nyc npm run test"
 
 // sa se faca un modul de error handling custom care sa logheze informatiile intr-un fisier
 /**

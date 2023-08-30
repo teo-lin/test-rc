@@ -30,7 +30,7 @@ async function setupProject(env) {
     // Add npm dependencies
     await run('npm install --save @types/dotenv dotenv')
     await run('npm install --save ioredis @nestjs/schedule')
-    await run('npm install --save @hapi/joi nyc mocha')
+    await run('npm install --save @hapi/joi nyc mocha chai')
     await run('npm install --save @nestjs/axios axios') // needed for nest's HttpService
     await run('npm install --save @nestjs/swagger swagger-ui-express')
 
@@ -59,6 +59,8 @@ async function updateProject(env) {
     await fs.writeFile('./src/weather/Weather.dto.ts', env.WEATHER_DTO.trim())
     await fs.writeFile('./src/weather/weather.module.ts', env.WEATHER_MODULE.trim())
     await fs.writeFile('./src/weather/weather.service.ts', env.WEATHER_SERVICE.trim())
+    await fs.writeFile('./src/weather/weather.service.spec.ts', env.WEATHER_SERVICE_SPEC.trim())
+    await fs.writeFile('./src/weather/weather.controller.spec.ts', env.WEATHER_CONTROLLER_SPEC.trim())
 
     // Unzip the weather and stats modules
     const targetFolder = path.join(__dirname, 'src')
@@ -67,6 +69,8 @@ async function updateProject(env) {
 
     // Build the app
     await run('npm run build')
+
+
     log('ENDED: Project requirements update')
 }
 
