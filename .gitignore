@@ -5,7 +5,7 @@ node_modules/
 npm-debug.log
 
 # Ignore Nest.js dist folder (built TypeScript files)
-# /dist/
+/app/dist/
 
 # Ignore environment configuration files
 .env
