@@ -1,6 +1,7 @@
 const setupDevTools = require('./setup/devTools.js')
-const { getUserInput, setupConfigs } = require('./setup/env.js')
-const setupProject = require('./setup/project.js')
+const { getUserInput, setupConfigs } = require('./setup/configs.js')
+const insertTemplates = require('./setup/templates.js')
+const { setupProject, updateProject } = require('./setup/project.js')
 
     /** Self documenting automated setup
      * I'll  implement the test requirements programmatically,
@@ -37,10 +38,13 @@ const setupProject = require('./setup/project.js')
         * However, I wouldn't recommend this approach in production */
         await setupConfigs(env)
 
-        // Finally, let's build the project, with two endpoints, weather and stats
+        // Finally, let's build the project, with two empty endpoints, weather and stats
         await setupProject(env)
-    })()
 
+        // Now let's implement the requirements below
+        await insertTemplates(env)
+        await updateProject(env)
+    })()
 
 
 // Cerintele aplicatiei
@@ -50,14 +54,12 @@ const setupProject = require('./setup/project.js')
 * DONE: set up a stats module to pick temps for 3 procenfigured locations
 * NOTE: the 3 locations would normally either be preconfigured or come from the frontend, I'll go with preconfigured for now
 * DONE: install @nestjs/schedule for the cron job
-* DONE: cronJob using the weather.service
-* TODO: test the cronJob tomorrow, today is over the usage limit
+* DONE: cronJob using the weather.service, need to test it, today is over the usage limit, cannot test
 */
 
 // sa se defineasca/foloseasca tipuri si interfete
 /**
- * DONE: implemented dtos
- * TODO: currently in one file per module for ease of access. move them to proper structure (separate dto folder, separate file for each)
+ * DONE: implemented dtos, could optionally move them to proper structure (separate dto folder, separate file for each)
  */
 
 // sa se valideze datele de intrare, modul npm propus: @hapi/joi
@@ -79,7 +81,7 @@ const setupProject = require('./setup/project.js')
  * NOTE: check nest recipe for Redis in the documentation
  * TODO: cronJob can now save data to redis
  * TODO: update stats.service to do the averages
- * NOTE: use minutely for testing, change to hourly for production.
+ * NOTE: use weatherbit_interval=minutely for testing, change to hourly for production.
  * check memory limits for in-memory data store.
  * if risk of overflow, do a moving average rather than average.
  * It's not the same, but temperatures rarely have spikes,
@@ -95,11 +97,20 @@ const setupProject = require('./setup/project.js')
 // sa raspunda cu statusuri corespunzatoare
 /**
  * TODO: add the desired functionality to the endpoint
+ * TODO: setup CacheModule to work with redis. potential npm package: cache-manager-redis-store
+ * after that need to register
+ * CacheModule.register({
+      store: redisStore,
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT) || 6379,
+    })
+ * in the main app.module.ts, inject it in the stats.service.ts and run with it, I think redis has the usual getData/setData methods
+ * if no cached data, do getTemperatures() etc, the rest is simple
  */
 
 // pentru testarea endpointului e nevoie de expunerea lui prin swagger
 /**
- * TODO: swagger config
+ * DOING: swagger config
  */
 // taskuri bonus:
 // unit tests
