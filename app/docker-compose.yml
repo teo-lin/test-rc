@@ -4,3 +4,16 @@ services:
     build: .
     ports:
       - '3000:3000'
+    networks:
+      - appnetwork
+  redis:
+    image: redis
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+    networks:
+      - appnetwork
+    volumes:
+      - ./src/config/redis.conf:/usr/local/etc/redis/redis.conf  # Mount custom config file
+networks:
+  appnetwork:

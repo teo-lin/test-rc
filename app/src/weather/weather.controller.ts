@@ -8,14 +8,14 @@ export class WeatherController {
     constructor(private readonly weatherService: WeatherService) { }
 
     @Get('weather')
-    getWeather(
-        @Query('location') location: string): Observable<WeatherResponseDTO> {
+    async getWeather(
+        @Query('location') location: string): Promise<Observable<WeatherResponseDTO>> {
         return this.weatherService.getWeather(location);
     }
 
     @Get('temperature')
-    getTemperature(
-        @Query('location') location: string): Observable<number> {
+    async getTemperature(
+        @Query('location') location: string): Promise<Observable<number>> {
         return this.weatherService.getTemperature(location);
     }
 }

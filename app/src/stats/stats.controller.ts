@@ -8,7 +8,7 @@ export class StatsController {
     constructor(private readonly statsService: StatsService) { }
 
     @Get('temperatures')
-    getTemperatures(): Observable<TemperaturesDTO> {
+    async getTemperatures(): Promise<TemperaturesDTO> {
         return this.statsService.getTemperatures();
     }
 }

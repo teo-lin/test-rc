@@ -49,3 +49,8 @@ export class WeatherInfoDTO {
     icon: string;
     description: string;
 }
+
+export class WeatherSnippet {
+    datetime: string;
+    temperature: number;
+}

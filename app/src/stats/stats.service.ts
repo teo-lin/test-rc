@@ -9,24 +9,24 @@ import { Cron } from '@nestjs/schedule';
 export class StatsService {
     constructor(private readonly weatherService: WeatherService) { }
 
-    getTemperatures(): Observable<TemperaturesDTO> {
+    async getTemperatures(): Promise<TemperaturesDTO> {
         const locations = ['Deva', 'Carei', 'Arad'];
 
-        const observables: Observable<{ location: string; temperature: number }>[] = locations.map(location =>
-            this.weatherService.getTemperature(location).pipe(
-                map(temperature => ({ location, temperature }))
-            )
+        const promises: Promise<{ location: string; temperature: number }>[] = locations.map(
+            async (location) => {
+                const temperature = await this.weatherService.getTemperature(location);
+                return { location, temperature };
+            }
         );
 
-        return forkJoin(observables).pipe(
-            map(temperatures => {
-                const result: TemperaturesDTO = {};
-                temperatures.forEach(({ location, temperature }) => {
-                    result[location] = temperature;
-                });
-                return result;
-            })
-        );
+        const results = await Promise.all(promises);
+
+        const result: TemperaturesDTO = {};
+        results.forEach(({ location, temperature }) => {
+            result[location] = temperature;
+        });
+
+        return result;
     }
 
     // onModuleInit() {
@@ -34,16 +34,16 @@ export class StatsService {
     //     this.getTemperaturesCron();
     // }
 
-    @Cron('0 * * * *') // Cron expression for every hour
-    getTemperaturesCron() {
-        this.getTemperatures().subscribe(
-            (temperatures) => {
-                // @TODO: save to redis later
-                console.log('Fetched temperatures:', temperatures);
-            },
-            (error) => {
-                console.error('Error fetching temperatures:', error);
-            }
-        );
-    }
+    // @Cron('0 * * * *') // Cron expression for every hour
+    // async getTemperaturesCron() {
+    //     this.getTemperatures().subscribe(
+    //         (temperatures) => {
+    //             // @TODO: save to redis later
+    //             console.log('Fetched temperatures:', temperatures);
+    //         },
+    //         (error) => {
+    //             console.error('Error fetching temperatures:', error);
+    //         }
+    //     );
+    // }
 }
