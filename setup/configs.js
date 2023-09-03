@@ -57,6 +57,19 @@ services:
     build: .
     ports:
       - '3000:3000'
+      networks:
+      - appnetwork
+  redis:
+    image: redis
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+    networks:
+      - appnetwork
+    volumes:
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf  # Mount custom config file
+networks:
+  appnetwork:
 `
   // !! This is really bad practice, so I've set-up GutGuardian to protect this file,
   // but I wouldn't recommend this approach outside demo purposes

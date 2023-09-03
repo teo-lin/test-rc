@@ -19,6 +19,7 @@ async function setupProject(env) {
     await run('nest generate controller stats')
     await run('nest generate service stats')
     await run('nest generate module stats')
+    await run('nest generate service redis')
     log('ENDED: nest project setup')
 
     // Initiate the repository
@@ -29,7 +30,8 @@ async function setupProject(env) {
 
     // Add npm dependencies
     await run('npm install --save @types/dotenv dotenv')
-    await run('npm install --save ioredis @nestjs/schedule')
+    await run('npm install --save-dev @types/node')
+    await run('npm install --save nestjs-redis ioredis @nestjs/schedule')
     await run('npm install --save @hapi/joi nyc mocha chai')
     await run('npm install --save @nestjs/axios axios') // needed for nest's HttpService
     await run('npm install --save @nestjs/swagger swagger-ui-express')

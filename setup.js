@@ -77,9 +77,9 @@ const { setupProject, updateProject } = require('./setup/project.js')
 // datele extrase sunt salvate intr-un cache, baza de date propusa: redis
 // sa se calculeze media dintre temperatura actuala cu media temperaturilor anterioare
 /**
- * TODO: setup redis on docker
+ * DONE: setup redis on docker
  * NOTE: check nest recipe for Redis in the documentation
- * TODO: cronJob can now save data to redis
+ * DOIN: cronJob can now save data to redis
  * TODO: update stats.service to do the averages
  * NOTE: use weatherbit_interval=minutely for testing, change to hourly for production.
  * check memory limits for in-memory data store.
@@ -97,20 +97,11 @@ const { setupProject, updateProject } = require('./setup/project.js')
 // sa raspunda cu statusuri corespunzatoare
 /**
  * TODO: add the desired functionality to the endpoint
- * TODO: setup CacheModule to work with redis. potential npm package: cache-manager-redis-store
- * after that need to register
- * CacheModule.register({
-      store: redisStore,
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT) || 6379,
-    })
- * in the main app.module.ts, inject it in the stats.service.ts and run with it, I think redis has the usual getData/setData methods
- * if no cached data, do getTemperatures() etc, the rest is simple
  */
 
 // pentru testarea endpointului e nevoie de expunerea lui prin swagger
 /**
- * DOING: swagger config
+ * TODO: swagger config
  */
 // taskuri bonus:
 // unit tests
