@@ -57,7 +57,7 @@ services:
     build: .
     ports:
       - '3000:3000'
-      networks:
+    networks:
       - appnetwork
   redis:
     image: redis
@@ -67,7 +67,7 @@ services:
     networks:
       - appnetwork
     volumes:
-      - ./config/redis.conf:/usr/local/etc/redis/redis.conf  # Mount custom config file
+      - ./src/redis/redis.conf:/usr/local/etc/redis/redis.conf  # Mount custom config file
 networks:
   appnetwork:
 `

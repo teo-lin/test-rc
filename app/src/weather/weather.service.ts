@@ -4,14 +4,14 @@ import { map } from 'rxjs/operators';
 import { Injectable, UseInterceptors } from '@nestjs/common';
 import { WeatherResponseDTO, WeatherSnippet } from './Weather.dto';
 import { WeatherValidationInterceptor } from './weather-validation.interceptor';
-import { MyRedisService } from 'src/myredis/myredis.service';
+import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 @UseInterceptors(WeatherValidationInterceptor)
 export class WeatherService {
     constructor(
         private readonly httpService: HttpService,
-        private readonly myRedisService: MyRedisService
+        private readonly myRedisService: RedisService
     ) { }
 
     getWeatherOld(location: string): Observable<WeatherResponseDTO> {

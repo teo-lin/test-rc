@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { MyRedisService } from '../myredis/myredis.service';
+import { RedisService } from '../redis/redis.service';
 
 @Injectable()
 export class HelloService {
-    constructor(private readonly myRedisService: MyRedisService) { }
+    constructor(private readonly myRedisService: RedisService) { }
 
     async setWho(name: string): Promise<void> {
         const timestamp = new Date().toISOString();

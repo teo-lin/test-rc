@@ -10,12 +10,12 @@ import { StatsModule } from './stats/stats.module';
 import { HttpModule } from '@nestjs/axios';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { HelloModule } from './hello/hello.module';
-import { MyRedisService } from './myredis/myredis.service';
+import { RedisService } from './redis/redis.service';
 
 // @TODO: coalesce all imports
 @Module({
   imports: [HttpModule, WeatherModule, StatsModule, HelloModule],
   controllers: [AppController, WeatherController, StatsController],
-  providers: [AppService, WeatherService, StatsService, MyRedisService],
+  providers: [AppService, WeatherService, StatsService, RedisService],
 })
 export class AppModule { }
