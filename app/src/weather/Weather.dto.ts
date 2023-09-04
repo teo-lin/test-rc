@@ -1,3 +1,18 @@
+export interface WeatherInfoDTO {
+    code: number,
+    icon: string,
+    description: string
+}
+
+export interface WeatherSnippet {
+    datetime: string,
+    temperature: number
+}
+
+export interface WeatherRecord extends WeatherSnippet {
+    location: string
+}
+
 export class WeatherResponseDTO {
     count: number;
     data: WeatherDataDTO[];
@@ -42,15 +57,4 @@ export class WeatherDataDTO {
     wind_cdir_full: string;
     wind_dir: number;
     wind_spd: number;
-}
-
-export class WeatherInfoDTO {
-    code: number;
-    icon: string;
-    description: string;
-}
-
-export class WeatherSnippet {
-    datetime: string;
-    temperature: number;
 }

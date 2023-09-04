@@ -11,34 +11,18 @@ import { RedisService } from 'src/redis/redis.service';
 export class WeatherService {
     constructor(
         private readonly httpService: HttpService,
-        private readonly myRedisService: RedisService
+        private readonly redisService: RedisService
     ) { }
 
-    getWeatherOld(location: string): Observable<WeatherResponseDTO> {
-        const apiUrl = `${process.env.WEATHERBIT_URL}current?city=${location},RO&key=${process.env.WEATHERBIT_APIKEY}&include=${process.env.WEATHERBIT_INTERVAL}`;
-        const apiRes = this.httpService.get(apiUrl).pipe(
-            map(response => response.data as WeatherResponseDTO)
-        );
-
-        return apiRes;
-    }
-
-    getTemperatureOld(location: string): Observable<number> {
-        return this.getWeatherOld(location).pipe(
-            map(weather => weather.data[0].app_temp)
-        );
-    }
-
-    async getWeather(location: string): Promise<any> {
+    async getWeather(location: string): Promise<WeatherResponseDTO> {
         const apiUrl = `${process.env.WEATHERBIT_URL}current?city=${location},RO&key=${process.env.WEATHERBIT_APIKEY}&include=${process.env.WEATHERBIT_INTERVAL}`;
         const response = await this.httpService.get(apiUrl).toPromise();
         return response.data;
     }
 
-    async getTemperature(location: string): Promise<any> {
+    async getTemperature(location: string): Promise<WeatherSnippet> {
         // Get the cache for the location
-        const cachedData = await this.myRedisService.get(location);
-        console.log('CACHED:', cachedData);
+        const cachedData = await this.redisService.get(location);
         let weatherArray: any[] = [];
 
         if (cachedData) {
@@ -49,7 +33,7 @@ export class WeatherService {
                 console.error('Error parsing cached data:', error);
             }
         }
-        console.log('PARSED:', weatherArray);
+        console.log('CACHED:', weatherArray);
 
         // Fetch the current weather data
         const weather = await this.getWeather(location);
@@ -68,11 +52,11 @@ export class WeatherService {
 
         if (!exists) {
             // Add the current weatherSnippet to the array
-            console.log('Ah well, this is new!');
+            console.log(`Pushing new snippet: ${weatherSnippet}`);
             weatherArray.push(weatherSnippet);
 
             // Store the updated array in Redis cache
-            await this.myRedisService.set(location, JSON.stringify(weatherArray));
+            await this.redisService.set(location, JSON.stringify(weatherArray));
         }
 
         return weatherSnippet;

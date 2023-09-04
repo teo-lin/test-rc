@@ -46,6 +46,11 @@ const { setupProject, updateProject } = require('./setup/project.js')
         await updateProject(env)
     })()
 
+// start locally  with npm run start:dev
+// start dockerly with docker compose up
+// delete with docker stop rc-app-1 && docker rm rc-app-1 && docker rmi rc-app
+// windows delete with docker stop app-rc-app-1; docker rm app-rc-app-1; docker rmi app-rc-app
+
 
 // Cerintele aplicatiei
 // sa se ia temperatura la diferite ore/minute in mod automat repetat pentru 3 locatii la alegere

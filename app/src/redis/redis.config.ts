@@ -1,7 +1,7 @@
 import { RedisOptions } from 'ioredis';
 
 const redisConfig: RedisOptions = {
-    host: 'redis-container',
+    host: 'rc-redis-container',
     port: 6379,
 };
 

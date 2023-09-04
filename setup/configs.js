@@ -53,23 +53,23 @@ CMD [ "npm", "run", "start:prod" ]
   obj.FILE_DOCKER_COMPOSE = `
 version: '3'
 services:
-  my-microservice:
+  rc-app:
     build: .
     ports:
       - '3000:3000'
     networks:
-      - appnetwork
-  redis:
+      - rc-network
+  rc-redis:
     image: redis
-    container_name: redis-container
+    container_name: rc-redis-container
     ports:
       - "6379:6379"
     networks:
-      - appnetwork
+      - rc-network
     volumes:
       - ./src/redis/redis.conf:/usr/local/etc/redis/redis.conf  # Mount custom config file
 networks:
-  appnetwork:
+  rc-network:
 `
   // !! This is really bad practice, so I've set-up GutGuardian to protect this file,
   // but I wouldn't recommend this approach outside demo purposes
@@ -85,6 +85,7 @@ WEATHERBIT_MAIL=api@rankingcoach.com
 WEATHERBIT_INTERVAL=minutely
 WEATHERBIT_APIKEY=b541d7219b6c468eb87fea42f3c34e9b
 WEATHERBIT_URL=https://api.weatherbit.io/v2.0/
+LOCATIONS=Deva,Carei,Arad
 `
 
   return obj

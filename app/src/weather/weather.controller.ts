@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { WeatherService } from './weather.service';
 import { Observable } from 'rxjs';
-import { WeatherResponseDTO } from './Weather.dto';
+import { WeatherResponseDTO, WeatherSnippet } from './Weather.dto';
 
 @Controller('weather')
 export class WeatherController {
@@ -9,13 +9,13 @@ export class WeatherController {
 
     @Get('weather')
     async getWeather(
-        @Query('location') location: string): Promise<Observable<WeatherResponseDTO>> {
+        @Query('location') location: string): Promise<WeatherResponseDTO> {
         return this.weatherService.getWeather(location);
     }
 
     @Get('temperature')
     async getTemperature(
-        @Query('location') location: string): Promise<Observable<number>> {
+        @Query('location') location: string): Promise<WeatherSnippet> {
         return this.weatherService.getTemperature(location);
     }
 }

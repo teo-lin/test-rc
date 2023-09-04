@@ -17,4 +17,16 @@ export class RedisService {
     async get(key: string): Promise<string | null> {
         return await this.client.get(key);
     }
+
+    async getAll(): Promise<{ [key: string]: string }[]> {
+        const keys = await this.client.keys('*'); // '*' retrieves all keys
+        const records: { [key: string]: string }[] = [];
+
+        for (const key of keys) {
+            const value = await this.client.get(key);
+            records.push({ [key]: value });
+        }
+
+        return records;
+    }
 }
