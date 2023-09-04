@@ -13,7 +13,7 @@ export class StatsService {
         private readonly weatherService: WeatherService,
         private readonly redisService: RedisService
     ) {
-        // Access the LOCATIONS variable directly from the environment
+        // Normally this should come from front-end, I'll just hardcode it for the demo
         this.locations = process.env.LOCATIONS.split(',');
     }
 
@@ -32,6 +32,31 @@ export class StatsService {
         const results: WeatherRecord[] = await Promise.all(promises);
 
         return results;
+    }
+
+    async getAverage(location): Promise<number> {
+        // Get the cache for the location
+        const cachedData = await this.redisService.get(location);
+        let weatherArray: WeatherSnippet[] = [];
+
+        if (cachedData) {
+            // Parse the cached data as JSON
+            try {
+                weatherArray = JSON.parse(cachedData);
+            } catch (error) {
+                console.error('Error parsing cached data:', error);
+            }
+        }
+        console.log('CACHED:', location, weatherArray);
+
+        // Get the average temperature
+        let averageTemperature;
+        const currentTemperature = (await this.weatherService.getTemperature(location)).temperature;
+
+        const totalTemperature = weatherArray.reduce((sum, element) => sum + element.temperature, 0);
+        totalTemperature === 0 ? averageTemperature = currentTemperature : averageTemperature = (totalTemperature + currentTemperature) / (weatherArray.length + 1);
+
+        return averageTemperature;
     }
 
     async addMockRecords(): Promise<void> {
@@ -60,16 +85,17 @@ export class StatsService {
         await this.addMockRecords();
         const all = await this.redisService.getAll();
         console.log(all);
+
+        // Schedule the cron job to run every hour. Api limits depleted imediately with this, hard to test
+        // this.getTemperaturesCron();
     }
 
-    // Schedule the cron job to run every hour
-    // onModuleInit() {this.getTemperaturesCron();}
-
-    // @Cron('0 * * * *') // Cron expression for every hour
+    // Cron disabled, as it depletes the 50 calls very fast
+    // @Cron('0 * * * *') // Cron expression for every hour 
     // async getTemperaturesCron() {
     //     this.getTemperatures().subscribe(
-    //         (temperatures) => { console.log('Fetched temperatures:', temperatures);},
-    //         (error) => {console.error('Error fetching temperatures:', error);}
+    //         (temperatures) => { console.log('Fetched temperatures:', temperatures); },
+    //         (error) => { console.error('Error fetching temperatures:', error); }
     //     );
     // }
 }

@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Injectable, UseInterceptors } from '@nestjs/common';
-import { WeatherResponseDTO, WeatherSnippet } from './Weather.dto';
+import { WeatherRecord, WeatherResponseDTO, WeatherSnippet } from './Weather.dto';
 import { WeatherValidationInterceptor } from './weather-validation.interceptor';
 import { RedisService } from 'src/redis/redis.service';
 
@@ -23,7 +23,7 @@ export class WeatherService {
     async getTemperature(location: string): Promise<WeatherSnippet> {
         // Get the cache for the location
         const cachedData = await this.redisService.get(location);
-        let weatherArray: any[] = [];
+        let weatherArray: WeatherSnippet[] = [];
 
         if (cachedData) {
             // Parse the cached data as JSON
@@ -33,7 +33,7 @@ export class WeatherService {
                 console.error('Error parsing cached data:', error);
             }
         }
-        console.log('CACHED:', weatherArray);
+        console.log('CACHED:', location, weatherArray);
 
         // Fetch the current weather data
         const weather = await this.getWeather(location);

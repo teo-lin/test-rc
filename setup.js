@@ -85,7 +85,7 @@ const { setupProject, updateProject } = require('./setup/project.js')
  * DONE: setup redis on docker
  * NOTE: check nest recipe for Redis in the documentation
  * DOIN: cronJob can now save data to redis
- * TODO: update stats.service to do the averages
+ * DONE: update stats.service to do the averages
  * NOTE: use weatherbit_interval=minutely for testing, change to hourly for production.
  * check memory limits for in-memory data store.
  * if risk of overflow, do a moving average rather than average.
@@ -101,7 +101,12 @@ const { setupProject, updateProject } = require('./setup/project.js')
 // se face calculul, se returneaza datele apoi se salveaza informatia in cache
 // sa raspunda cu statusuri corespunzatoare
 /**
- * TODO: add the desired functionality to the endpoint
+ * DONE: endpoint average temperature per location
+ * if no location specified:
+ * TODO: average of all the temperatures --> getAll() --> reduce
+ * TODO: move the average calculation to getTemperature(), add it to the location (modify dtos accordingly, refactor)
+ * TODO: either new method in redis.service.ts isFresh() or extend get value to do that (meh)
+ * TODO: update getTemperature to do: isFresh()? get(location) : getTemperature(location)
  */
 
 // pentru testarea endpointului e nevoie de expunerea lui prin swagger
